@@ -33,9 +33,9 @@ public class Algorithm {
 
     static lambda timer = (arr, method, classInstance) -> {
         try {
-            long startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
             method.invoke(classInstance, arr);
-            long endTime = System.currentTimeMillis();
+            endTime = System.currentTimeMillis();
         } catch (Exception e) {
             e.getStackTrace();
         }
@@ -48,7 +48,7 @@ public class Algorithm {
 
             Class[] parameterTypes = new Class[1];
             parameterTypes[0] = int[].class;
-            Method methodToPass = Algorithm.class.getMethod(methodName, parameterTypes);
+            Method methodToPass = Algorithm.class.getDeclaredMethod(methodName, parameterTypes);
             Algorithm algorithm = new Algorithm();
 
             //TODO: Get rid of debug print statements
@@ -57,6 +57,28 @@ public class Algorithm {
             System.out.println("End: " + endTime);
         } catch (Exception e) {
             e.getStackTrace();
+        }
+    }
+
+
+    private static void runningAlgorithm2(int [] arr, String methodName) {
+        try {
+            //Initialize variable
+            count = swap = 0;
+            //getMethod only gets public methods
+            Method method = Algorithm.class.getDeclaredMethod(methodName, int[].class);
+            Algorithm algorithm = new Algorithm();
+
+            System.out.println("Got to here");
+            long startTime = System.currentTimeMillis();
+            method.invoke(algorithm, arr);
+            long endTime = System.currentTimeMillis();
+
+            //TODO: Get rid of debug print statements
+            System.out.println("Start: " + startTime);
+            System.out.println("End: " + endTime);
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
