@@ -1,75 +1,59 @@
 import java.lang.reflect.Method;
 
-@FunctionalInterface 
-interface lambda {
-    void run(int[] arr, Method method, Algorithm classInstance);
-}
-
 //TODO: Look into this as an idea
 //      Would help with making sure algorithm method gets used properly 
-class Algorithsm {
-    @FunctionalInterface 
-    interface lambda {
-        void run(int[] arr, Method method, Algorithm classInstance);
+class Algorithms {
+    interface AlgorithmBluePrint {
+        //void swap();
+        //boolean check();
+        
+        //Where the algorithm is stored
+        void run(); 
     }
 
-    abstract class algorithm {
-        static int count, swap;
-        static long startTime, endTime;
-    
-        static lambda timer = (arr, method, classInstance) -> {
-            try {
-                startTime = System.currentTimeMillis();
-                method.invoke(classInstance, arr);
-                endTime = System.currentTimeMillis();
-            } catch (Exception e) {
-                e.getStackTrace();
-            }
-        };
-
-        abstract void swap();
-        abstract boolean check();
-        abstract void method();
+    class Algorithm {
+        final String algorithmFunctionName = "run"; 
+        int count, swap;
+        long startTime, endTime;
         
-        void methodCaller(int[] arr) {
-            runningAlgorithm(null, "method");
+
+        protected void swap (int a, int b) {
+            //TODO: Figure if this should be more generic
+            int temp = a;
+            a = b;
+            b = temp;
         }
-        void runningAlgorithm(int [] arr, String methodName) {
+        protected boolean check (int a, int b) {
+            //TODO: check if this function needs to be more generic
+            return a > b;
+        }
+
+        public void timed(int[] arr) {
             try {
                 //Initialize variable
                 count = swap = 0;
-    
-                Class[] parameterTypes = new Class[1];
-                parameterTypes[0] = int[].class;
-                Method methodToPass = Algorithm.class.getDeclaredMethod(methodName, parameterTypes);
+                
+                //getMethod only gets public methods
+                Method method = Algorithm.class.getDeclaredMethod(algorithmFunctionName, int[].class);
                 Algorithm algorithm = new Algorithm();
     
+                startTime = System.currentTimeMillis();
+                method.invoke(algorithm, arr);
+                endTime = System.currentTimeMillis();
+    
                 //TODO: Get rid of debug print statements
-                timer.run(arr, methodToPass, algorithm);
                 System.out.println("Start: " + startTime);
                 System.out.println("End: " + endTime);
             } catch (Exception e) {
-                e.getStackTrace();
+                System.out.println(e);
             }
         }
     }  
 
-    class Bubblesort extends algorithm {
-        void method() {
-            //TODO: Remove
-            for (int i = 0; i < 10; i++);
-        }
-
-        @Override
-        void swap() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'swap'");
-        }
-
-        @Override
-        boolean check() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'check'");
+    class Bubblesort extends Algorithm implements AlgorithmBluePrint {
+        public void run() {
+            //TODO: Remove Debug
+            System.out.println("Bubblesort Algorithm");
         }
     }
 }
