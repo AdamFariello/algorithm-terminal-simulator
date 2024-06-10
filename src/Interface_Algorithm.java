@@ -4,5 +4,5 @@ interface Interface_Algorithm {
     //boolean check();
     
     //Where the algorithm is stored
-    abstract void run(int [] arr); 
+    abstract void run(int [] arr);
 }

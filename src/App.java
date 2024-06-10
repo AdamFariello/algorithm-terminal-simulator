@@ -1,12 +1,14 @@
 
+import java.io.*;
+import java.util.Arrays;
+
 public class App {
     
 
+
     public static void main(String[] args) {
-        Algorithm a = new Algorithm();
-        //a.test();
-        
+        int [] arr = {1,2,3,4,5};
 
-
+        Algorithm.BubbleSort.sort(arr);
     }
 }

@@ -3,13 +3,16 @@ import java.util.Arrays;
 
 public class Algorithm {
     private class AlgorithmBase {
-        final String algorithmFunctionName = "run"; 
-        int count, swap;
-        long startTime, endTime;
-        int [] arr;
+        final static  String algorithmFunctionName = "run"; 
+        static int check, swap;
+        static long startTime, endTime;
+        static int [] arr;
 
-        protected void init (int [] arr) {
-            this.arr = arr;
+        AlgorithmBase() {}
+
+        private void init (int [] newarr) {
+            arr = newarr;
+            check = swap = 0;
         }
         protected void swap (int posA, int posB) {
             //TODO: Figure if this should be more generic        
@@ -24,10 +27,9 @@ public class Algorithm {
         }
 
         public void timed(int[] arr) {
+            init(arr);
+            
             try {
-                //Initialize variable
-                count = swap = 0;
-
                 Class currentClass = this.getClass();
                 Class [] parameters = {int[].class};
                 Method method = currentClass.getDeclaredMethod(algorithmFunctionName, parameters[0]);
@@ -48,14 +50,38 @@ public class Algorithm {
     }
 
 
-    class BubbleSort extends AlgorithmBase implements Interface_Algorithm {
+    class BubbleSort extends AlgorithmBase {
+        public static void run(int [] arr) {
+            try {
+                //TODO: Remove Debug
+                for (int i = 0; i < 100; i++);
+
+                /* 
+                int a = 1;
+                int b = 2;
+                System.out.println("Before the change: " + Arrays.toString(arr));
+                swap(a,b);
+                System.out.println("After the change: " + Arrays.toString(arr));
+                */
+            } catch (Exception e) {
+                System.out.println(e);
+                //e.getStackTrace();
+            }
+        }
+
+        public static void sort (int [] arr) {
+            AlgorithmBase algo = new AlgorithmBase();
+            timed(arr);
+        }
+    }
+
+
+    class QuickSort extends AlgorithmBase {
         public void run(int [] arr) {
             try {
-                init(arr);
-
                 //TODO: Remove Debug
                 for (int i = 0; i < 10; i++);
-
+    
                 int a = 1;
                 int b = 2;
                 System.out.println("Before the change: " + Arrays.toString(arr));
@@ -66,27 +92,9 @@ public class Algorithm {
                 //e.getStackTrace();
             }
         }
-    }
 
-
-    class QuickSort extends AlgorithmBase implements Interface_Algorithm {
-        @Override
-        public void run(int [] arr) {
-            try {
-                init(arr);
-    
-                //TODO: Remove Debug
-                for (int i = 0; i < 10; i++);
-    
-                int a = 1;
-                int b = 2;
-                System.out.println("Before the change: " + Arrays.toString(arr));
-                swap(a,b);
-                System.out.println("After the change: " + Arrays.toString(arr));
-            } catch (Exception e) {
-                System.out.println(e);
-                //e.getStackTrace();
-            }
+        public static void sort (int [] arr) {
+            timed(arr);
         }
     }
 }
