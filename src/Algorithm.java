@@ -2,99 +2,128 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public class Algorithm {
-    private class AlgorithmBase {
-        final static  String algorithmFunctionName = "run"; 
-        static int check, swap;
-        static long startTime, endTime;
-        static int [] arr;
-
-        AlgorithmBase() {}
-
-        private void init (int [] newarr) {
-            arr = newarr;
-            check = swap = 0;
-        }
-        protected void swap (int posA, int posB) {
-            //TODO: Figure if this should be more generic        
-            int temp = arr[posA];
-            arr[posA] = arr[posB];
-            arr[posB] = temp;
-        }
-        protected boolean check (int a, int b) {
-            //TODO: Theorize how to make this more generic
-            //      Unlikely, but would use instanceOf
-            return a > b;
-        }
-
-        public void timed(int[] arr) {
-            init(arr);
-            
-            try {
-                Class currentClass = this.getClass();
-                Class [] parameters = {int[].class};
-                Method method = currentClass.getDeclaredMethod(algorithmFunctionName, parameters[0]);
-                Object secondClass = currentClass.getDeclaredConstructor().newInstance();
-
-                //Running the method
-                startTime = System.currentTimeMillis();
-                method.invoke(secondClass, arr);
-                endTime = System.currentTimeMillis();
-
-                //TODO: Get rid of debug print statements
-                System.out.println("Start: " + startTime);
-                System.out.println("End: " + endTime);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-        }
-    }
-
-
-    class BubbleSort extends AlgorithmBase {
-        public static void run(int [] arr) {
-            try {
-                //TODO: Remove Debug
-                for (int i = 0; i < 100; i++);
-
-                /* 
-                int a = 1;
-                int b = 2;
-                System.out.println("Before the change: " + Arrays.toString(arr));
-                swap(a,b);
-                System.out.println("After the change: " + Arrays.toString(arr));
-                */
-            } catch (Exception e) {
-                System.out.println(e);
-                //e.getStackTrace();
-            }
-        }
-
-        public static void sort (int [] arr) {
-            AlgorithmBase algo = new AlgorithmBase();
-            timed(arr);
-        }
-    }
-
-
-    class QuickSort extends AlgorithmBase {
-        public void run(int [] arr) {
-            try {
-                //TODO: Remove Debug
-                for (int i = 0; i < 10; i++);
+    static String algorithmFunctionName = "run"; 
+    static int check, swap;
+    static long startTime, endTime;
     
-                int a = 1;
-                int b = 2;
-                System.out.println("Before the change: " + Arrays.toString(arr));
-                swap(a,b);
-                System.out.println("After the change: " + Arrays.toString(arr));
-            } catch (Exception e) {
-                System.out.println(e);
-                //e.getStackTrace();
+    static int[] arr;
+    
+    static void init (int [] newArr) {
+        arr = newArr;
+        check = swap = 0;
+    }
+    static void swap (int posA, int posB) {
+        swap++;
+        int temp = arr[posA];
+        arr[posA] = arr[posB];
+        arr[posB] = temp;
+    }
+    static boolean check (int a, int b) {
+        check++;
+        return a > b;
+    }
+    static void printArray() {
+        Arrays.toString(arr);
+    }
+
+
+    class BubbleSort {
+        private static void run() {
+            //Doing it like this makes it more of a 
+            //bubble algorithm instead of a sinking algorithm
+            for (int i = arr.length - 1; i > 0 ; i--) {
+                for (int j = arr.length - 1; j > i; j--) {
+                    if (check(arr[j - 1],arr[j])) {
+                        swap(j - 1, j);
+                    }
+                }
+            }
+        }
+        private static void runOptimized() {
+            boolean entryWasSwapped;
+            for (int i = arr.length - 1; i > 0 ; i--) {
+                entryWasSwapped = false;
+                for (int j = arr.length - 1; j > i; j--) {
+                    if (check(arr[j - 1],arr[j])) {
+                        swap(j - 1, j);
+                        entryWasSwapped = true;
+                    }
+                }
+
+                if (!entryWasSwapped) break;
             }
         }
 
-        public static void sort (int [] arr) {
-            timed(arr);
+        public static void timed (int [] arr) {
+            init(arr);
+
+            startTime = System.currentTimeMillis();
+            run();
+            endTime = System.currentTimeMillis();
         }
     }
+
+
+
+    class QuickSort extends Algorithm {
+        static int start, end;
+        
+        // Partition using the Lomuto partition scheme
+        private static int partition() {
+            int start = 0; 
+            int end = arr.length - 1;
+
+            
+            // Pick the rightmost element as a pivot from the array
+            int pivot = arr[end];
+    
+            // elements less than the pivot will be pushed to the left of `pIndex`
+            // elements more than the pivot will be pushed to the right of `pIndex`
+            // equal elements can go either way
+            int pIndex = start;
+    
+            // each time we find an element less than or equal to the pivot,
+            // `pIndex` is incremented, and that element would be placed
+            // before the pivot.
+            for (int i = start; i < end; i++) {
+                if (arr[i] <= pivot) {
+                    swap(i, pIndex);
+                    pIndex++;
+                }
+            }
+    
+            // swap `pIndex` with pivot
+            swap(end, pIndex);
+    
+            // return `pIndex` (index of the pivot element)
+            return pIndex;
+        }
+
+        public static void run(int start, int end) {
+            // base condition
+            if (start >= end) {
+                return;
+            }
+    
+            // rearrange elements across pivot
+            int pivot = partition(a, start, end);
+    
+            // recur on subarray containing elements less than the pivot
+            quicksort(a, start, pivot - 1);
+    
+            // recur on subarray containing elements more than the pivot
+            quicksort(a, pivot + 1, end);
+        }
+
+        public static void timed (int [] arr) {
+            init(arr);
+            start = 0; 
+            end = arr.length - 1;
+
+
+            startTime = System.currentTimeMillis();
+            run();
+            endTime = System.currentTimeMillis();
+        }
+    }   
 }
