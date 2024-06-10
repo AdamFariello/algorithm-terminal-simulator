@@ -69,11 +69,7 @@ public class Algorithm {
         static int start, end;
         
         // Partition using the Lomuto partition scheme
-        private static int partition() {
-            int start = 0; 
-            int end = arr.length - 1;
-
-            
+        private static int partition(int start, int end) {
             // Pick the rightmost element as a pivot from the array
             int pivot = arr[end];
     
@@ -100,29 +96,24 @@ public class Algorithm {
         }
 
         public static void run(int start, int end) {
-            // base condition
-            if (start >= end) {
-                return;
-            }
+            // base condition/ return early
+            if (start >= end) return;
     
             // rearrange elements across pivot
-            int pivot = partition(a, start, end);
+            int pivot = partition(start, end);
     
             // recur on subarray containing elements less than the pivot
-            quicksort(a, start, pivot - 1);
+            run(start, pivot - 1);
     
             // recur on subarray containing elements more than the pivot
-            quicksort(a, pivot + 1, end);
+            run(pivot + 1, end);
         }
 
         public static void timed (int [] arr) {
             init(arr);
-            start = 0; 
-            end = arr.length - 1;
-
 
             startTime = System.currentTimeMillis();
-            run();
+            run(0, arr.length - 1);
             endTime = System.currentTimeMillis();
         }
     }   
