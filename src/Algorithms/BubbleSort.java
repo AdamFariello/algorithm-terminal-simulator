@@ -30,12 +30,4 @@ public class BubbleSort extends Algorithm {
             if (!entryWasSwapped) break;
         }
     }
-
-    public void timed (int [] arr) {
-        init(arr);
-
-        startTime = System.currentTimeMillis();
-        run();
-        endTime = System.currentTimeMillis();
-    }
 }
