@@ -1,11 +1,7 @@
 package Algorithms;
 
 public class BubbleSort extends Algorithm {
-    public static void test() {
-        System.out.println("Works");
-    }
-
-    public static void run() {
+    public void sort() {
         //Doing it like this makes it more of a 
         //bubble algorithm instead of a sinking algorithm
         for (int i = arr.length - 1; i > 0 ; i--) {
@@ -16,7 +12,7 @@ public class BubbleSort extends Algorithm {
             }
         }
     }
-    public static void runOptimized() {
+    public void sortptimized() {
         boolean entryWasSwapped;
         for (int i = arr.length - 1; i > 0 ; i--) {
             entryWasSwapped = false;

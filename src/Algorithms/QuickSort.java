@@ -4,7 +4,7 @@ public class QuickSort extends Algorithm {
     static int start, end;
     
     // Partition using the Lomuto partition scheme
-    private static int partition(int start, int end) {
+    private int partition(int start, int end) {
         // Pick the rightmost element as a pivot from the array
         int pivot = arr[end];
 
@@ -30,8 +30,7 @@ public class QuickSort extends Algorithm {
         return pIndex;
     }
 
-    @Override
-    public static void run(int start, int end) {
+    private void recSort(int start, int end) {
         // base condition/ return early
         if (start >= end) return;
 
@@ -39,9 +38,20 @@ public class QuickSort extends Algorithm {
         int pivot = partition(start, end);
 
         // recur on subarray containing elements less than the pivot
-        run(start, pivot - 1);
+        recSort(start, pivot - 1);
 
         // recur on subarray containing elements more than the pivot
-        run(pivot + 1, end);
+        recSort(pivot + 1, end);   
+    }
+
+    public void sort() { recSort(start, end); }
+
+    @Override
+    public void timedSort(int [] arr) {
+        init(arr);
+
+        startTime = System.currentTimeMillis();
+        recSort(start, end);
+        endTime = System.currentTimeMillis();       
     }
 }   

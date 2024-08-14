@@ -6,8 +6,12 @@ public abstract class Algorithm {
     int[] arr;
     int check, swap;
     long startTime, endTime;
-e
-    public abstract void run();
+
+
+    void init (int [] arr) {
+        this.arr = arr;
+        check = swap = 0;
+    }
 
     void swap (int posA, int posB) {
         swap++;
@@ -16,26 +20,22 @@ e
         arr[posB] = temp;
     }
     
-    
-    void init (int [] newArr) {
-        arr = newArr;
-        check = swap = 0;
-    }
-    
     boolean check (int a, int b) {
         check++;
         return a > b;
     }
  
-    void printArray() {
-        Arrays.toString(arr);
-    }
 
-    void timedSort() {
+    protected abstract void sort();
+    public static void sort(int [] arr) {
+        init(arr);
+        sort();
+    }
+    public static void timedSort(int [] arr) {
         init(arr);
 
         startTime = System.currentTimeMillis();
-        run();
+        sort();
         endTime = System.currentTimeMillis();       
     }
 }
