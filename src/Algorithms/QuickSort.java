@@ -1,10 +1,13 @@
 package Algorithms;
 
+// Got the code from a website, hence the execessive comments
+// Don't remember where...
+
 public class QuickSort extends Algorithm {
-    static int start, end;
-    
+    private static int start, end;
+
     // Partition using the Lomuto partition scheme
-    private int partition(int start, int end) {
+    private static int partition(int start, int end) {
         // Pick the rightmost element as a pivot from the array
         int pivot = arr[end];
 
@@ -29,8 +32,7 @@ public class QuickSort extends Algorithm {
         // return `pIndex` (index of the pivot element)
         return pIndex;
     }
-
-    private void recSort(int start, int end) {
+    private static void recSort(int start, int end) {
         // base condition/ return early
         if (start >= end) return;
 
@@ -44,14 +46,19 @@ public class QuickSort extends Algorithm {
         recSort(pivot + 1, end);   
     }
 
-    public void sort() { recSort(start, end); }
 
-    @Override
-    public void timedSort(int [] arr) {
+    public static int[] sort(int [] arr) {
+        init(arr);
+        recSort(start, end);
+        return arr;
+    }
+    public static int[] timedSort(int [] arr) {
         init(arr);
 
         startTime = System.currentTimeMillis();
         recSort(start, end);
-        endTime = System.currentTimeMillis();       
+        endTime = System.currentTimeMillis();
+        
+        return arr;
     }
 }   
